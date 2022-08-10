@@ -25,6 +25,8 @@
 
 #include <asf.h>
 
+bool native_mode_is_active();
+
 void native_mode_handle_sysex_command(uint8_t length, uint8_t* buffer);
 //returns true if the MIDI event was consumed by native mode
 bool native_mode_consume_midi_event(uint8_t type, uint8_t channel, uint8_t number, uint8_t value);
