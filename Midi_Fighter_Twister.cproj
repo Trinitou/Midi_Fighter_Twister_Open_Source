@@ -995,6 +995,12 @@
     <None Include="src\LUFA\LUFA\Platform\XMEGA\ClockManagement.h">
       <SubType>compile</SubType>
     </None>
+    <Compile Include="src\native_mode.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\native_mode.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\self_test.c">
       <SubType>compile</SubType>
     </Compile>
