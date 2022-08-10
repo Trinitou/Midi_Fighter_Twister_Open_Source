@@ -1,0 +1,6 @@
+﻿Debug/
+Release/
+.vs
+Midi_Fighter_Twister.componentinfo.xml
+*.mk
+*Makefile
