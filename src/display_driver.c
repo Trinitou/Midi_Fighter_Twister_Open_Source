@@ -36,7 +36,7 @@ volatile uint8_t display_frame_index;
 volatile uint8_t tick;
 
 // Array which holds the 7 current bit color value for the RGB segments
-static uint8_t rgb_color_setting[16];
+static uint8_t rgb_color_setting[PHYSICAL_ENCODERS];
 
 
 /*Function Prototypes: */
@@ -877,7 +877,7 @@ void setting_confirmation_animation(uint32_t color)
  */
 
 static uint8_t sparkle_count = 0;
-static uint8_t sparkle_intensity[16];
+static uint8_t sparkle_intensity[PHYSICAL_ENCODERS];
 
 // Sparkle Start and End colors in RGB format
 static uint8_t sparkle_start_color[3] = {0x00,0x00,0xFF};
@@ -887,9 +887,9 @@ void run_sparkle(uint8_t count)
 {
 	sparkle_count = count;
 	
-	uint8_t prev_sparkle_intensity[16];
+	uint8_t prev_sparkle_intensity[PHYSICAL_ENCODERS];
 	
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		sparkle_intensity[i] = 0;
 		prev_sparkle_intensity[i] = 0;
 	}
@@ -905,7 +905,7 @@ void run_sparkle(uint8_t count)
 		uint32_t gb;
 		uint32_t bb;
 		
-		for(uint8_t i=0;i<16 ;++i){
+		for(uint8_t i=0;i<PHYSICAL_ENCODERS ;++i){
 			
 			if (sparkle_intensity[i] != prev_sparkle_intensity[i]){		
 				
@@ -939,7 +939,7 @@ bool build_sparkles(void)
 	
 	// Scan through the remaining sparkles and decrease
 	// their brightness randomly 25% of the time
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		if(sparkle_intensity[i] > 0 ) {
 			active = true;
 			if ((random16() & 0x3F) == 0) {

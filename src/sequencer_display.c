@@ -107,7 +107,7 @@ void build_pattern_memory_display(void)
 	
 	// Draw a display which indicates whether a mem slot is full
 	// or empty by setting its RGB to a certain color
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		if (bit & memory_slot_state){
 			set_encoder_rgb(i, MEMORY_SLOT_FULL_COLOR);
 		} else {
@@ -121,7 +121,7 @@ void build_pattern_memory_display(void)
 
 void build_pattern_edit_display(void)
 {
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		uint8_t state = get_step_state(selectedSlot, i);
 		// Set the RGB to Red if step active, off if inactive
 		if(state){

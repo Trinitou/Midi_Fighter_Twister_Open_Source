@@ -51,17 +51,17 @@ uint8_t  g_side_switch_up;
 uint8_t  g_side_switch_down;
 
 // The relative movement of the 16 encoders
-int8_t  encoder_state[16];  // the number of encoder steps since last time get_encoder_value was called
+int8_t  encoder_state[PHYSICAL_ENCODERS];  // the number of encoder steps since last time get_encoder_value was called
 
 // The previous encoder pin states
 uint16_t encoder_cha_state_prev = 0;
 uint16_t encoder_chb_state_prev = 0;
-uint8_t encoder_inactive_counter[16];
+uint8_t encoder_inactive_counter[PHYSICAL_ENCODERS];
 // ===== Velocity Calculation Method ==================
 
 #if VELOCITY_CALC_METHOD == VELOCITY_CALC_M_TPS_BLOCKS
-int8_t encoder_last_movement[16];
-uint16_t encoder_event_cycle_counts[16];
+int8_t encoder_last_movement[PHYSICAL_ENCODERS];
+uint16_t encoder_event_cycle_counts[PHYSICAL_ENCODERS];
 #endif
 
 
@@ -278,7 +278,7 @@ static uint8_t enc_switch_buffer_pos = 0;
 // #if ENCODER_INTERPRET_VERSION == ENCODER_INTERPRET_VERSION_STATE_TABLE
 // Receives 4 bit value, [0]:last chan a, [1]: last chan b, [2]: current chan a, [3]: current chan b
 // Returns: 0 = idle, -127 = Ambiguous, 1 = Increment Once, -1 = Decrement Once
-const int8_t EncoderActionByState[16] = {	
+const int8_t EncoderActionByState[PHYSICAL_ENCODERS] = {	
 	0, -1, 1, -127,
 	1, 0, -127, -1,
 	-1, -127, 0, 1,
@@ -302,7 +302,7 @@ void encoder_scan(void)   // MIDI Output: Digital Inputs -> Encoders (Read Pins)
 	
 	// Read the 16 Switch States, set the corresponding bit in switch_state if 
 	// the switch is pressed.
-	for (uint8_t i = 0; i < 16; ++i) {
+	for (uint8_t i = 0; i < PHYSICAL_ENCODERS; ++i) {
 		ioport_set_pin_level(ENC_CLK, false);// CLK falling edge does nothing
 		current_enc_switch_state |= ioport_get_pin_level(ENC_DATA) ? 0 : bit;
 		bit >>= 1;
@@ -318,7 +318,7 @@ void encoder_scan(void)   // MIDI Output: Digital Inputs -> Encoders (Read Pins)
 	bit   = 0x8000;
 	
 	// Read the encoder channel a and b states for the 16 encoders
-	for (uint8_t i = 0; i < 16;++i) {
+	for (uint8_t i = 0; i < PHYSICAL_ENCODERS;++i) {
 		ioport_set_pin_level(ENC_CLK, false);
 		encoder_chb_state |= ioport_get_pin_level(ENC_DATA) ? bit : 0;
 		ioport_set_pin_level(ENC_CLK, true);
@@ -333,7 +333,7 @@ void encoder_scan(void)   // MIDI Output: Digital Inputs -> Encoders (Read Pins)
 	
 	// Process the encoder channel state data
 	bit = 0x00001;
-	for (uint8_t i = 0; i < 16;++i) {
+	for (uint8_t i = 0; i < PHYSICAL_ENCODERS;++i) {
 		//#if ENCODER_INTERPRET_VERSION == ENCODER_INTERPRET_VERSION_STATE_TABLE
 		// Calculate the index for the EncoderActionByState table
 		uint8_t this_encoder_state = ((encoder_cha_state & bit) ? 0x04 : 0x00) | ((encoder_chb_state & bit) ? 0x08 : 0x00) |

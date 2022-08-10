@@ -45,7 +45,7 @@ void process_sequencer_input(void)
 	//uint16_t seq_switch_state = update_encoder_switch_state();
 	update_encoder_switch_state();
 	
-	for (uint8_t i=0;i<16;i++) {
+	for (uint8_t i=0;i<PHYSICAL_ENCODERS;i++) {
 		
 		// First we check for movement on each encoder
 		new_value = get_encoder_value(i);
@@ -53,7 +53,7 @@ void process_sequencer_input(void)
 		if (new_value) {
 
 			// The filter row in the default view uses de-tents
-			if ((i>11) && (i < 16) && (sequencerDisplayState == DEFAULT) && (encoder_is_in_detent(sequencerRawValue[i]))) {
+			if ((i>11) && (i < PHYSICAL_ENCODERS) && (sequencerDisplayState == DEFAULT) && (encoder_is_in_detent(sequencerRawValue[i]))) {
 				seq_detent_counter[i-12] += new_value;
 				if (seq_detent_counter[i-12] > detent_size){
 					sequencerRawValue[i] = encoder_detent_limit_high;
@@ -402,7 +402,7 @@ void pattern_memory_init(void)
 	seq_memory_slot_state = 0x0000;
 	
 	// We check the FX_SLOT_FULL_FLAG location for the fx slot full flag value of 0xA5
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		if(eeprom_read(addr) == FX_SLOT_FULL_FLAG){
 			seq_memory_slot_state |= bit;
 		}
@@ -567,7 +567,7 @@ void do_alternate_functions(bool sw_down)
 				// Store the buffer selection for the four slots
 				slot_memory[i].buffer_selection = slotSelectedBuffer[i];
 				// Store the actual step states for the four slots
-				for(uint8_t j=0;j<16;++j){
+				for(uint8_t j=0;j<PHYSICAL_ENCODERS;++j){
 					slot_memory[i].step_states[j] = get_step_state(i,j);
 				}
 			}
@@ -578,7 +578,7 @@ void do_alternate_functions(bool sw_down)
 			// Revert to the previously selected clip
 			set_slot_clip(i, slot_memory[i].clip_selection);
 			slotSelectedBuffer[i] = slot_memory[i].buffer_selection;
-			for(uint8_t j=0;j<16;++j){
+			for(uint8_t j=0;j<PHYSICAL_ENCODERS;++j){
 				// Restore the stored patterns
 				set_step_state(i, j, slot_memory[i].step_states[j]);
 			}

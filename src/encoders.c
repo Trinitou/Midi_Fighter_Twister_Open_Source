@@ -39,14 +39,14 @@ const uint16_t encoder_detent_limit_high = 6450; // 6450 - ok for all modes, (no
 
 // Locals
 
-uint8_t indicator_value_buffer[NUM_BANKS][16];	 // Holds the 7 bit indicator value
+uint8_t indicator_value_buffer[NUM_BANKS][PHYSICAL_ENCODERS];	 // Holds the 7 bit indicator value
 
-uint8_t switch_color_buffer[NUM_BANKS][16];      // Holds the switch color setting 
+uint8_t switch_color_buffer[NUM_BANKS][PHYSICAL_ENCODERS];      // Holds the switch color setting 
 
-uint8_t switch_animation_buffer[NUM_BANKS][16];  // Holds the switch animation setting
-uint8_t encoder_animation_buffer[NUM_BANKS][16];  // Holds the encoder animation setting
+uint8_t switch_animation_buffer[NUM_BANKS][PHYSICAL_ENCODERS];  // Holds the switch animation setting
+uint8_t encoder_animation_buffer[NUM_BANKS][PHYSICAL_ENCODERS];  // Holds the encoder animation setting
 
-uint16_t enc_switch_midi_state[NUM_BANKS][16];	 // Holds the switch states
+uint16_t enc_switch_midi_state[NUM_BANKS][PHYSICAL_ENCODERS];	 // Holds the switch states
 
 uint16_t enc_switch_toggle_state[NUM_BANKS];	 // 16-Encoders Per Bank/ 1-bit per Encoder
 							// toggle state is not tied directly 
@@ -198,7 +198,7 @@ void encoders_init(void)
 {
 	// Read in all the encoder settings for all banks
 	// - in to the encoder_settings RAM Table
-	//for(uint8_t i=0;i<16;++i){
+	//for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 	for(uint8_t i=0;i<BANKED_ENCODERS;++i){
 		uint8_t this_bank = i/16;
 		uint8_t this_phys_encoder = i%16;
@@ -214,7 +214,7 @@ void encoders_init(void)
 	uint16_t addr = (ENC_SETTINGS_START_PAGE * 32) + EE_INACTIVE_COLOR_OFFSET;
 
 	for (uint8_t i = 0; i<NUM_BANKS;++i){
-		for(uint8_t j=0;j<16;++j){
+		for(uint8_t j=0;j<PHYSICAL_ENCODERS;++j){
 			switch_color_buffer[i][j] = eeprom_read(addr);
 			addr+= ENC_EE_SIZE;
 		}
@@ -579,7 +579,7 @@ void process_encoder_input(void)  // MIDI Output: Digital Inputs -> Encoders (Ou
 	// Update the current encoder switch states
 	update_encoder_switch_state();
 	
-	for (uint8_t i=0;i<16;i++) {
+	for (uint8_t i=0;i<PHYSICAL_ENCODERS;i++) {
 		uint8_t virtual_encoder_id = get_virtual_encoder_id(encoder_bank, i);
 		uint8_t banked_encoder_id = virtual_encoder_id & BANKED_ENCODER_MASK;
 		process_encoder_input_rotary(i, virtual_encoder_id, banked_encoder_id, bit);  // First we check for movement on each encoder
@@ -1029,7 +1029,7 @@ void run_shift_mode(uint8_t page){
 	
 	//uint16_t sw_down = get_enc_switch_down();
 	
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		if (bit & get_enc_switch_down()) {
 			// Switch was just pressed
 			midi_stream_raw_note(midi_system_channel, SHIFT_OFFSET + (i+(page*16)) , true, 127);
@@ -1513,10 +1513,10 @@ void process_shift_update(uint8_t idx, uint8_t value)
  *
 **/
 
-static uint8_t prevIndicatorValue[16];
-static uint8_t prevSwitchColorValue[16];
-static uint8_t prevEncoderAnimationValue[16];
-static uint8_t prevSwAnimationValue[16];
+static uint8_t prevIndicatorValue[PHYSICAL_ENCODERS];
+static uint8_t prevSwitchColorValue[PHYSICAL_ENCODERS];
+static uint8_t prevEncoderAnimationValue[PHYSICAL_ENCODERS];
+static uint8_t prevSwAnimationValue[PHYSICAL_ENCODERS];
 
 // - Switch Animations 1-48, 127
 bool animation_is_switch_rgb(uint8_t animation_value) { // !Summer2016Update: Dual Animations - Identify to Eliminate Conflicts
@@ -1642,7 +1642,7 @@ void update_encoder_display(void)
 	
 	// Increment the encoder index for next time
 	idx += 1;
-	if(idx > 15){idx = 0;}
+	if(idx >= PHYSICAL_ENCODERS){idx = 0;}
 }
 
 /**
@@ -1657,7 +1657,7 @@ void change_encoder_bank(uint8_t new_bank) // Change Bank
 	// Prepare the state buffers for the new bank
 	transfer_encoder_values_to_other_banks(encoder_bank);
 
-	for(uint8_t i =0;i<16;++i){
+	for(uint8_t i =0;i<PHYSICAL_ENCODERS;++i){
 		uint8_t old_virtual_encoder_id = get_virtual_encoder_id(encoder_bank, i);
 		uint8_t new_virtual_encoder_id = get_virtual_encoder_id(new_bank, i);
 		

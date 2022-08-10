@@ -33,7 +33,7 @@
 	/*	Macros: */
 
 	/* Constants: */
-	#define PHYSICAL_ENCODERS 16  // 16 Encoders are placed on the MIDI Fighter Twister Hardware
+	#define PHYSICAL_ENCODERS 16 // 16 Encoders are placed on the MIDI Fighter Twister Hardware
 	#define BANKED_ENCODERS 64 // essentially virtual encoders but not including 'shifted' encoders.
 	#define BANKED_ENCODER_MASK 0x3F // For Determining banked encoder id from the virtual encoder id
 	#define VIRTUAL_ENCODERS 128  // Twister Firmware supports 4 Banks of 16 Encoders, each containing a virtual shift encoder (4x16x2=128)
@@ -130,7 +130,7 @@
 		
 		/* Variables */
 		
-		extern uint8_t indicator_value_buffer[4][16];
+		extern uint8_t indicator_value_buffer[4][PHYSICAL_ENCODERS];
 		extern encoder_config_t encoder_settings[64];
 		// - overall, the use of input_map over an enlarged encoder_settings saves about 236 Bytes of RAM (624->960)
 		// -- But logically, the use of encoder_settings is a much simpler and faster implementation

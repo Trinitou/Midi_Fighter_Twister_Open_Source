@@ -23,7 +23,7 @@
 #include "sequencer.h"
 
 /*
-const uint8_t default_pattern[11][16] PROGMEM = {
+const uint8_t default_pattern[11][PHYSICAL_ENCODERS] PROGMEM = {
 		
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		//{127,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -42,7 +42,7 @@ const uint8_t default_pattern[11][16] PROGMEM = {
 	};
 */	
 // Ean's Patterns	
-const uint8_t default_pattern[11][16] PROGMEM = {
+const uint8_t default_pattern[11][PHYSICAL_ENCODERS] PROGMEM = {
 		
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{127,0,0,0,127,0,0,0,127,0,0,0,127,0,0,0},
@@ -188,7 +188,7 @@ const uint8_t states[4] = {0,4,2,1};
 const uint8_t truncate_steps[5] = {0,8,4,2,1};
 const uint8_t factors[4] = {1,2,8,16};
 
-const int8_t swing_adjustment[16][4] = {{0,1,0,1},
+const int8_t swing_adjustment[PHYSICAL_ENCODERS][4] = {{0,1,0,1},
 									   {0,3,0,3},
 									   {0,5,0,5},
 									   {0,8,0,8},
@@ -399,7 +399,7 @@ void shift_pattern(uint8_t slot, bool direction){
 	uint8_t next_byte = 0;
 	
 	if (direction){
-			for(uint8_t j=0;j<16;++j){
+			for(uint8_t j=0;j<PHYSICAL_ENCODERS;++j){
 				if (j==0){
 					next_byte = pattern[slot][slotSelectedBuffer[slot]][0];
 					pattern[slot][slotSelectedBuffer[slot]][0] = pattern[slot][slotSelectedBuffer[slot]][15];
@@ -431,7 +431,7 @@ void shift_pattern(uint8_t slot, bool direction){
 
 void random_pattern(uint8_t inSlot)
 {
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		pattern[inSlot][slotSelectedBuffer[inSlot]][i] = (random16() & 0x7F00)>>8;
 	}
 }

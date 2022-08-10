@@ -253,7 +253,7 @@ int main (void)
 	}
 	
 	// Clear out any start up noise from the encoders
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		get_encoder_value(i);
 		#if VELOCITY_CALC_METHOD == VELOCITY_CALC_M_TPS_BLOCKS
 		get_encoder_cycle_count(i);

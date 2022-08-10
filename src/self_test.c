@@ -70,7 +70,7 @@ bool check_self_test(void)
 				// Write the test passed flag
 				eeprom_write(EE_SELF_TEST_FLAG, PCB_TEST_PASSED_FLAG);
 				// Set display to all green and flash three times to signal pass
-				for(uint8_t i=0;i<16;++i){
+				for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 					build_rgb(i, 0x00FF00, false);
 				}
 				for(uint8_t i=0;i<3;++i){
@@ -134,7 +134,7 @@ bool elec_self_test(void)
 	uint16_t allread_tested = 0x0000;
 
 	// Initialize by check all switches are open
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		if(update_encoder_switch_state() & bit) {
 			fail_indicator(i);
 		}
@@ -210,7 +210,7 @@ bool elec_self_test(void)
 	// each encoder and wait for its value to move from 0
 	// to 20. If either encoder inputs have a fault the value
 	// will never pass 1.
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		clear_display_buffer();
 		get_encoder_value(i); // discard any old encoder movements
 		int16_t encoder_value = 2;
@@ -298,7 +298,7 @@ bool elec_self_test(void)
 		set_encoder_indicator(2, blue, false,BAR, 0);
 	}
 	*/
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		set_encoder_indicator(i, 127, false, BAR, false);
 		set_encoder_rgb(i, 127);
 	}
@@ -326,7 +326,7 @@ bool assembly_self_test(void)
 	display_enable();
 	
 	// Set each encoder RGB LED to White and wait for operator to push enc switch
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		clear_display_buffer();
 		build_rgb(i, WHITE, false);
 		wait_for_input(i);
@@ -351,7 +351,7 @@ bool assembly_self_test(void)
 	// If passed all tests flash all RGB green then write the flag and reset
 	clear_display_buffer();
 	
-	for(uint8_t i=0;i<16;++i){
+	for(uint8_t i=0;i<PHYSICAL_ENCODERS;++i){
 		build_rgb(i, 0x00FF00, false);
 	}
 	
@@ -374,7 +374,7 @@ void fail_indicator(uint8_t element)
 {
 	clear_display_buffer();
 	
-	if (element < 16)
+	if (element < PHYSICAL_ENCODERS)
 	{
 		// If the fault is for an encoder element we set its red LEDs on
 		build_rgb(element, 0xFF0000, false);
@@ -405,7 +405,7 @@ void fail_indicator(uint8_t element)
 void pass_indicator(uint8_t element)
 {
 	clear_display_buffer();
-	if ( element < 16) {
+	if ( element < PHYSICAL_ENCODERS) {
 		build_rgb(element, 0x00FF00, false);	
 	} else {
 		uint8_t side_pattern[6][2] = {{0,4},{4,8},{8,12},{3,7},{7,11},{11,15}}; 
@@ -429,7 +429,7 @@ void wait_for_input(uint8_t element)
 	uint16_t bit = 0x0001;
 	uint16_t count = 0;
 	
-	if (element < 16){
+	if (element < PHYSICAL_ENCODERS){
 		bit = bit << element;
 		while(!(update_encoder_switch_state() & bit)) {
 			// Wait for the switch down press, fail if this
