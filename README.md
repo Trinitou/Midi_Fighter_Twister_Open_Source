@@ -24,3 +24,10 @@ The project also requires a user board configuration header file, if this is mis
 4. Navigate to the Midi_Fighter_Twister.hex file and open it
 5. Choose "Yes" to proceed
 6. Wait until the firmware update process is completed
+
+## Native mode
+The native mode enables extended bidirectional communication via MIDI for advanced integration of the Midi Fighter Twister with other software.
+
+User control input can be received via MIDI control change (CC) messages. Fixed CC addresses are used for reproducable behaviour. Also the visual state can be remotely configured via well-defined CC/SysEx messages. This allows, for example, to directly set an individual knob RGB LED color via SysEx.
+
+More details can be found in the [native mode documentation](doc/NativeMode.md).
