@@ -18,7 +18,6 @@ The project also requires a user board configuration header file, if this is mis
 #define CONF_BOARD_ENABLE_USARTD0
 
 ## How to build
-
 You need Microchip Studio which can be downloaded [here](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio).
 
 1. Inside Micropchip Studio, open the *Midi_Fighter_Twister.atsln* solution
@@ -28,8 +27,9 @@ You need Microchip Studio which can be downloaded [here](https://www.microchip.c
 In the repository root directory there now should be a folder called after the selected configuration ("Debug"/"Release") in which you can find the target firmware file called *Midi_Fighter_Twister.hex* .
 
 ## Installation
-1. Connect the Midi Fighter Twister to your computer
-1. Open the Midifighter Utility software (should automatically detect the device)
+You need the Midi Fighter Utility which can be downloaded [here](https://store.djtechtools.com/pages/midi-fighter-utility).
+1. Connect the Midi Fighter Twister to your computer directly (DO NOT USE A USB HUB!)
+1. Launch the Midifighter Utility software which should automatically detect the connected device
 1. *Tools > Midifighter > Load Custom Firmware > For a Twister*
 1. Navigate to the *Midi_Fighter_Twister.hex* file and open it
 1. Choose "Yes" to proceed
