@@ -29,11 +29,11 @@ In the repository root directory there now should be a folder called after the s
 
 ## Installation
 1. Connect the Midi Fighter Twister to your computer
-2. Open the Midifighter Utility software (should automatically detect the device)
-3. Tools -> Midifighter -> Load Custom Firmware -> For a Twister
-4. Navigate to the Midi_Fighter_Twister.hex file and open it
-5. Choose "Yes" to proceed
-6. Wait until the firmware update process is completed
+1. Open the Midifighter Utility software (should automatically detect the device)
+1. *Tools > Midifighter > Load Custom Firmware > For a Twister*
+1. Navigate to the *Midi_Fighter_Twister.hex* file and open it
+1. Choose "Yes" to proceed
+1. Wait until the firmware update process is completed
 
 ## Native mode
 The native mode enables extended bidirectional communication via MIDI for advanced integration of the Midi Fighter Twister with other software.
