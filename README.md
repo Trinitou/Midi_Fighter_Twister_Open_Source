@@ -17,7 +17,7 @@ The project also requires a user board configuration header file, if this is mis
 
 #define CONF_BOARD_ENABLE_USARTD0
 
-## How to build
+## How to build using Microchip Studio (Windows-only)
 You need Microchip Studio which can be downloaded [here](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio).
 
 1. Inside Micropchip Studio, open the *Midi_Fighter_Twister.atsln* solution
